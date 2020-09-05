@@ -18,3 +18,12 @@ export const getUserTodos = async (id) => {
 
 	return await response.json();
 };
+
+export const getUser = async (id) => {
+
+	const response = await fetch(`${Api.users}/${id}`, {
+		method : 'GET'
+	});
+
+	return await response.json();
+};
