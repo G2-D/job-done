@@ -28,4 +28,8 @@ export default createGlobalStyle`
   button {
     cursor: pointer;
   }
+
+  p {
+    margin-bottom: 0;
+  }
 `;
