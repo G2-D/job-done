@@ -12,6 +12,12 @@ const Todos = () => {
 		notCompleted 	: []
 	});
 
+	const [dragItem, setDragItem] = useState({
+		index 		: null,
+		srcList 	: [],
+		distList	: []
+	});
+
 	const configTodosList = async () => {
 
 		const response = await getUserTodos(userId);
@@ -47,9 +53,63 @@ const Todos = () => {
 		onInit();
 	}, []);
 
+	const onDragStart = (e) => {
+
+		const { currentTarget } = e;
+
+		const index 		= currentTarget.dataset.index;
+		const completed 	= currentTarget.dataset.completed;
+
+		const srcList		= completed === 'true' ? todosList.completed : todosList.notCompleted;
+		const distList		= completed === 'true' ? todosList.notCompleted : todosList.completed;
+		const to 			= completed === 'true' ? 'notCompleted' : 'completed';
+
+		setDragItem({
+			index 		: index,
+			to 			: to,
+			srcList 	: srcList,
+			distList	: distList,
+			srcContainer : currentTarget.closest('.column-container')
+		});
+	};
+
+	const onDragOver = (e) => {
+
+		e.preventDefault();
+	};
+
+	const onDrop = (e) => {
+
+		const { currentTarget } = e;
+		const { srcContainer, srcList, index, to} = dragItem;
+
+		if (currentTarget !== srcContainer) {
+
+			const item = srcList[index];
+
+			srcList.splice(index, 1);
+
+			if (to === 'completed') {
+
+				todosList.completed.push(item);
+			}
+
+			if (to === 'notCompleted') {
+
+				todosList.notCompleted.push(item);
+			}
+
+			setTodosList({
+				...todosList,
+				completed		: todosList.completed,
+				notCompleted 	: todosList.notCompleted
+			});
+		}
+	};
+
 	return (
 		<>	
-			<div>
+			<div className="column-container" onDragOver={onDragOver} onDrop={onDrop} style={{ width: '300px', float : 'left', background: 'red' }}>
 				<h2>
 					Não completados
 				</h2>
@@ -57,16 +117,22 @@ const Todos = () => {
 					todosList.notCompleted.map((todo, index) => {
 
 						return (
-							<div key={index}>
+							<div 
+								draggable="true" 
+								data-index={index}
+								data-completed={false}
+								onDragStart={onDragStart}
+								key={index} style={{ width: '100%', float : 'left', background: 'gray', marginTop : '16px' }}
+							>
 								<h3>
-									{ todo.title }
+									{ todo.title } - ID: { todo.id }
 								</h3>
 							</div>
 						);
 					})
 				}
 			</div>
-			<div>
+			<div className="column-container" onDragOver={onDragOver} onDrop={onDrop} style={{ width: '300px', float : 'left', background: 'green' }}>
 				<h2>
 					Completados
 				</h2>
@@ -74,9 +140,15 @@ const Todos = () => {
 					todosList.completed.map((todo, index) => {
 
 						return (
-							<div key={index}>
+							<div 
+								draggable="true" 
+								data-index={index}
+								data-completed={true}
+								onDragStart={onDragStart}
+								key={index} style={{ width: '100%', float : 'left', background: 'gray', marginTop : '16px' }}
+							>
 								<h3>
-									{ todo.title }
+									{ todo.title } - ID: { todo.id }
 								</h3>
 							</div>
 						);
