@@ -13,9 +13,11 @@ const Todos = () => {
 	});
 
 	const [dragItem, setDragItem] = useState({
-		index 		: null,
-		srcList 	: [],
-		distList	: []
+		index 			: null,
+		to 				: null,
+		srcList 		: [],
+		distList		: [],
+		srcContainer 	: null
 	});
 
 	const configTodosList = async () => {
@@ -48,11 +50,6 @@ const Todos = () => {
 		configTodosList();
 	};
 
-	useEffect(() => {
-
-		onInit();
-	}, []);
-
 	const onDragStart = (e) => {
 
 		const { currentTarget } = e;
@@ -60,22 +57,37 @@ const Todos = () => {
 		const index 		= currentTarget.dataset.index;
 		const completed 	= currentTarget.dataset.completed;
 
-		const srcList		= completed === 'true' ? todosList.completed : todosList.notCompleted;
-		const distList		= completed === 'true' ? todosList.notCompleted : todosList.completed;
-		const to 			= completed === 'true' ? 'notCompleted' : 'completed';
-
 		setDragItem({
-			index 		: index,
-			to 			: to,
-			srcList 	: srcList,
-			distList	: distList,
-			srcContainer : currentTarget.closest('.column-container')
+			index 			: index,
+			to 				: completed === 'true' ? 'notCompleted' : 'completed',
+			srcList			: completed === 'true' ? todosList.completed : todosList.notCompleted,
+			distList		: completed === 'true' ? todosList.notCompleted : todosList.completed,
+			srcContainer	: currentTarget.closest('.column-container')
 		});
 	};
 
 	const onDragOver = (e) => {
 
 		e.preventDefault();
+	};
+
+	const onDragEnter = (e) => {
+		
+		const { currentTarget } = e;
+
+		const { srcContainer } = dragItem;
+
+		if (currentTarget !== srcContainer) {
+			
+			currentTarget.classList.add('drag-hover');
+		}
+	};
+
+	const onDragLeave = (e) => {
+		
+		const { currentTarget } = e;
+
+		currentTarget.classList.remove('drag-hover');
 	};
 
 	const onDrop = (e) => {
@@ -104,12 +116,28 @@ const Todos = () => {
 				completed		: todosList.completed,
 				notCompleted 	: todosList.notCompleted
 			});
+
+			currentTarget.classList.remove('drag-hover');
+
+			return false;
 		}
 	};
 
+	useEffect(() => {
+
+		onInit();
+	}, []);
+
 	return (
 		<>	
-			<div className="column-container" onDragOver={onDragOver} onDrop={onDrop} style={{ width: '300px', float : 'left', background: 'red' }}>
+			<div 
+				className="column-container" 
+				onDragOver={onDragOver} 
+				onDrop={onDrop} 
+				onDragEnter={onDragEnter} 
+				onDragLeave={onDragLeave}
+				style={{ width: '300px', float : 'left', background: 'red' }}
+			>
 				<h2>
 					Não completados
 				</h2>
@@ -132,7 +160,14 @@ const Todos = () => {
 					})
 				}
 			</div>
-			<div className="column-container" onDragOver={onDragOver} onDrop={onDrop} style={{ width: '300px', float : 'left', background: 'green' }}>
+			<div 
+				className="column-container" 
+				onDragOver={onDragOver} 
+				onDrop={onDrop} 
+				onDragEnter={onDragEnter} 
+				onDragLeave={onDragLeave}
+				style={{ width: '300px', float : 'left', background: 'green' }}
+			>
 				<h2>
 					Completados
 				</h2>
