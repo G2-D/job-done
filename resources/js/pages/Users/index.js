@@ -18,7 +18,6 @@ const Users = () => {
     setIsLoading(true);
     onInit();
     setIsLoading(false);
-    console.log(isLoading);
   }, []);
 
   console.log(userList);
@@ -28,7 +27,7 @@ const Users = () => {
       <header>Job Done</header>
       <Title>Gerencie as tarefas de seu time</Title>
       <UsersList>
-        {userList.map((user, index) => (
+        {isLoading ? <p>Loading ...</p> : userList.map((user, index) => (
           <Link to={`/todos/${user.id}`} key={index}>
             <img
               src={`https://randomuser.me/api/portraits/lego/${index}.jpg`}

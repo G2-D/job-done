@@ -17,6 +17,10 @@ export default createGlobalStyle`
     padding: 40px 20px;
   }
 
+  html, body, #app {
+    height: 100%
+  }
+
   body, input, button {
     font: 16px Roboto, sans-serif;
   }

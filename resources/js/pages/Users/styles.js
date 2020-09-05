@@ -14,6 +14,10 @@ export const Container = styled.div`
         z-index: 10;
         padding: 30px 0px
     }
+
+    > p {
+        color: #fff;
+    }
 `;
 
 export const Title = styled.h1`
