@@ -1,12 +1,42 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
-const Tasks = () => {
+import { getUsers } from '../utils/users';
+
+const Users = () => {
+
+	const [userList, setUserList] = useState([]);
+
+	const onInit = async () => {
+
+		setUserList(await getUsers());
+	};
+
+	useEffect(() => {
+
+		onInit();
+	}, []);
 
 	return (
 		<>	
-			Users
+			{
+				userList.map((user, index) => {
+
+					return (
+						<div key={index}>
+							<p>
+								{ user.name }
+								<br/>
+								<Link to={`/todos/${user.id}`}>
+									Todos
+								</Link>
+							</p>
+						</div>
+					);
+				})
+			}
 		</>
 	);
 };
 
-export default Tasks;
+export default Users;

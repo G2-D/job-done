@@ -10,7 +10,7 @@ export default  () => {
 		<BrowserRouter>
 			<Switch>
 				<Route path="/users" component={ Users } exact />
-				<Route path="/todos" component={ Todos } exact />
+				<Route path="/todos/:userId?" component={ Todos } exact />
 			</Switch>
 		</BrowserRouter>
 	);

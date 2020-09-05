@@ -1,7 +1,7 @@
 // Api
 import Api from '../Api';
 
-const getTodos = async () => {
+export const getTodos = async () => {
 
 	const response = await fetch(Api.todos, {
 		method : 'GET'
@@ -9,5 +9,3 @@ const getTodos = async () => {
 
 	return await response.json();
 };
-
-export default getTodos;

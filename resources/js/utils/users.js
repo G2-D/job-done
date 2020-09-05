@@ -1,7 +1,7 @@
 // Api
 import Api from '../Api';
 
-const getUsers = async () => {
+export const getUsers = async () => {
 
 	const response = await fetch(Api.users, {
 		method : 'GET'
@@ -10,4 +10,11 @@ const getUsers = async () => {
 	return await response.json();
 };
 
-export default getUsers;
+export const getUserTodos = async (id) => {
+
+	const response = await fetch(`${Api.users}/${id}/todos`, {
+		method : 'GET'
+	});
+
+	return await response.json();
+};

@@ -1,10 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+
+import { getUserTodos } from '../utils/users';
 
 const Todos = () => {
 
+	const { userId } = useParams();
+
+	const [todosList, setTodosList] = useState([]);
+
+	const onInit = async () => {
+
+		setTodosList(await getUserTodos(userId));
+	};
+
+	useEffect(() => {
+
+		onInit();
+	}, []);
+
 	return (
 		<>	
-			Todos
+			{ console.log(todosList) }
+			Todos { userId }
 		</>
 	);
 };
