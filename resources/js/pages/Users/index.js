@@ -21,6 +21,8 @@ const Users = () => {
     console.log(isLoading);
   }, []);
 
+  console.log(userList);
+
   return (
     <Container>
       <header>Job Done</header>
@@ -31,8 +33,9 @@ const Users = () => {
             <img
               src={`https://randomuser.me/api/portraits/lego/${index}.jpg`}
             />
-			<div>
-
+            <div>
+              <strong>{user.name}</strong>
+              <p>{user.email}</p>
             </div>
 			<FiChevronRight size={20} />
           </Link>

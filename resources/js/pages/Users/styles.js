@@ -8,6 +8,11 @@ export const Container = styled.div`
         font-size: 20px;
         font-weight: bold;
         color: #fff;
+        background: #21222C;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        padding: 30px 0px
     }
 `;
 
