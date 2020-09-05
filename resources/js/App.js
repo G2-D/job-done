@@ -2,9 +2,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-// Style
-import './App.scss';
-
 // Routes
 import Routes from './Routes';
 
